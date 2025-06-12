@@ -61,10 +61,11 @@ int main(int ac, char **av)
 		philo_structs = malloc(sizeof(t_philosopher) * data->p_n);
 		if(!philosophers || !data->forks || !philo_structs)
 		{
-			free(data);
+			cleanup(data, philo_structs, philosophers);
 			return (0);
 		}
 	}
 	inis(data, philo_structs);
 	launch(philosophers, philo_structs, data);
+	cleanup(data, philo_structs, philosophers);
 }

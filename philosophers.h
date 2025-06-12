@@ -6,9 +6,11 @@
 #include <pthread.h>     // pthread functions and types
 #include <sys/time.h>    // gettimeofday(), struct timeval
 #include <unistd.h>      // usleep()
+#include <stdbool.h>
 
 typedef struct s_data
 {
+	bool check;
 	long long p_n;
 	long long t_d;
 	long long t_s;
@@ -24,7 +26,8 @@ typedef struct s_philosopher {
     int left_fork_id;          // Which fork is on their left
     int right_fork_id;         // Which fork is on their right
     long last_meal_time;       // When they last started eating
-    int meals_eaten;           // How many times they've eaten
+    int meals_eaten;
+	pthread_mutex_t meal_mutex;           // How many times they've eaten
     t_data *shared_data;       // Pointer to shared program data
 } t_philosopher;
 
