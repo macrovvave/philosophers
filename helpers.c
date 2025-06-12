@@ -35,3 +35,17 @@ long long ft_atoi(char *str)
 	}
 	return (result);
 }
+
+int should_die(t_philosopher* philo)
+{
+    long current_time ;
+    long time_since_last_meal ;
+    int t_id;
+    long time;
+
+    current_time = get_current_time_ms();
+    time_since_last_meal = current_time - philo->last_meal_time;
+    if (time_since_last_meal > philo->shared_data->t_d)
+        return (1);
+    return (0);
+}
