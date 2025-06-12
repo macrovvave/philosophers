@@ -15,7 +15,7 @@ typedef struct s_data
 	long long t_e;
 	int meals;
 	int number_of_meals;
-	int start;
+	long start;
 	pthread_mutex_t *forks;
 } t_data;
 

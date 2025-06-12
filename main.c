@@ -55,6 +55,7 @@ int main(int ac, char **av)
 		return (0);
 	else
 	{
+		data->start = get_current_time_ms();
 		philosophers = malloc(sizeof(pthread_t) * data->p_n);
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->p_n);
 		philo_structs = malloc(sizeof(t_philosopher) * data->p_n);
