@@ -1,15 +1,17 @@
 #include "philosophers.h"
 
 
-
-void* routine(void* arg) {
+void* routine(void* arg)
+{
     t_philosopher* philo = (t_philosopher*)arg;
     t_data *data = philo->shared_data;  // Get data from philo struct
     
     while (1) {
         pthread_mutex_lock(&data->forks[philo->left_fork_id]);
         pthread_mutex_lock(&data->forks[philo->right_fork_id]);
-        eat(philo);
+        printf("% %d has taken a fork\n",philo->id);
+        while(philo->meals_eaten < data->meals || data->meals == -1)
+            eat(philo);
         pthread_mutex_unlock(&data->forks[philo->right_fork_id]);
         pthread_mutex_unlock(&data->forks[philo->left_fork_id]);
         sleep_func(philo);

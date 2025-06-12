@@ -28,9 +28,17 @@ typedef struct s_philosopher {
     t_data *shared_data;       // Pointer to shared program data
 } t_philosopher;
 
-
+long get_current_time_ms();
+long get_elapsed_time(long start_time);
 long long ft_atoi(char *str);
 void launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data);
+void precise_sleep(int milliseconds);
+void sleep_func( t_philosopher* philo);
+void think( t_philosopher* philo);
+void eat( t_philosopher* philo);
+
+
+
 
 
 #endif

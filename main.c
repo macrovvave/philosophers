@@ -28,7 +28,6 @@ t_data *parse_args(int argc, char **argv)
 }
 
 
-
 void inis(t_data *data, t_philosopher *philo)
 {
 	int i;
@@ -50,7 +49,6 @@ int main(int ac, char **av)
 {
 	t_data *data;
 	pthread_t *philosophers;           // Thread array
-	          // Mutex array  
 	t_philosopher *philo_structs;     // Philosopher data array
 
 	if((ac != 5 && ac != 6) || !(data = pars(ac, av + 1)))
