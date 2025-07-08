@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/01 16:47:56 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/08 16:04:53 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ t_data *parse_args(int argc, char **argv)
     t_data *data;
  
 	data = malloc(sizeof(t_data));
-	if(!data)
-		return (NULL);    
+	if (!data)
+		return (NULL);
+
     if(!(data->t_s = atoi(argv[4])) || !(data->t_e = atoi(argv[3])) 
 		|| !(data->t_d = atoi(argv[2])) || !(data->p_n = atoi(argv[1])))
 	{
@@ -42,7 +43,7 @@ t_data *parse_args(int argc, char **argv)
 	}
 	else
 		data->meals_to_eat = -1;
-    data->start = get_current_time_ms();
+    data->meals = 0;
     return data;
 }
 
@@ -82,7 +83,9 @@ void inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 		}
 		i++;
     }
-	if (pthread_mutex_init(&data->check_mutex, NULL))
+	if (pthread_mutex_init(&data->check_mutex, NULL) 
+		|| pthread_mutex_init(&data->start_mutex, NULL)
+		|| pthread_mutex_init(&data->printing_mutex, NULL))
 		{
 			cleanup(data, philo, philosophers);
 			exit(1);

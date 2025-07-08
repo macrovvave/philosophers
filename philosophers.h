@@ -8,18 +8,25 @@
 #include <unistd.h>      // usleep()
 #include <stdbool.h>
 
+////////////////////////////////////////////////////
+////CHECK FOR OTHER SHARED DATA AND MUTEX IT////////
+////////////////////////////////////////////////////
+
 typedef struct s_data
 {
+    int     meals;
 	bool check;
-	long long p_n;
-	long long t_d;
-	long long t_s;
-	long long t_e;
+	long long p_n; // number of philosophers
+	long long t_d; // time to die
+	long long t_s; // time to sleep
+	long long t_e; // time to eat
 	int meals_to_eat;
 	int number_of_meals;
 	long start;
 	pthread_mutex_t *forks;
 	pthread_mutex_t check_mutex;       // Pointer to shared program data
+	pthread_mutex_t start_mutex;       // Pointer to shared program data
+	pthread_mutex_t printing_mutex;
 } t_data;
 
 typedef struct s_philosopher {
@@ -42,6 +49,7 @@ void sleep_func( t_philosopher* philo);
 void think( t_philosopher* philo);
 void eat( t_philosopher* philo);
 void unlock_forks(t_philosopher* philo );
+int should_die(t_philosopher* philo);
 t_data *data();
 
 

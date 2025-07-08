@@ -5,6 +5,7 @@
 long get_current_time_ms()
 {
     struct timeval tv;
+
     gettimeofday(&tv, NULL);
     return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 }
@@ -12,10 +13,11 @@ long get_current_time_ms()
 // Get elapsed time since program start
 long get_elapsed_time(long start_time)
 {
-    return get_current_time_ms() - start_time;
+    return (get_current_time_ms() - start_time);
 }
 
 // Sleep for specified milliseconds
+
 void precise_sleep(int milliseconds)
 {
     usleep(milliseconds * 1000); // usleep takes microseconds
