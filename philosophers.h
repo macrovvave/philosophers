@@ -1,19 +1,21 @@
 #ifndef PHILOSOPHERS_H
 #define PHILOSOPHERS_H
 
+#define _GNU_SOURCE
 #include <stdio.h>       // printf()
 #include <stdlib.h>      // malloc(), free(), atoi()
 #include <pthread.h>     // pthread functions and types
 #include <sys/time.h>    // gettimeofday(), struct timeval
 #include <unistd.h>      // usleep()
 #include <stdbool.h>
+// #include <time.h>
+// #include <linux/time.h>
 
-////////////////////////////////////////////////////
-////CHECK FOR OTHER SHARED DATA AND MUTEX IT////////
-////////////////////////////////////////////////////
 
 typedef struct s_data
 {
+    long death_time;
+    long done_time;
     int     meals;
 	bool check;
     bool one;
@@ -26,7 +28,6 @@ typedef struct s_data
 	long start;
 	pthread_mutex_t *forks;
 	pthread_mutex_t check_mutex;       // Pointer to shared program data
-	// pthread_mutex_t start_mutex;       // Pointer to shared program data
 	pthread_mutex_t printing_mutex;
 } t_data;
 
@@ -51,7 +52,8 @@ void think( t_philosopher* philo);
 void eat( t_philosopher* philo);
 void lock_forks(t_philosopher* philo );
 void unlock_forks(t_philosopher* philo );
+int should_die(t_philosopher   *philo);
+int ate_enough(t_philosopher   *philo);
 t_data *data();
-
 
 #endif

@@ -4,10 +4,9 @@
 // Get current time in milliseconds
 long get_current_time_ms()
 {
-    struct timeval tv;
-
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+    struct timespec ts;
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return (ts.tv_sec * 1000L) + (ts.tv_nsec / 1000000L);
 }
 
 // Get elapsed time since program start
@@ -20,12 +19,12 @@ long get_elapsed_time(long start_time)
 
 void precise_sleep(int milliseconds)
 {
-    struct timespec ts;
+    struct timespec req;
 
-    ts.tv_sec = milliseconds / 1000;
-    ts.tv_nsec = (milliseconds % 1000) * 1000000;
+    req.tv_sec = milliseconds / 1000;
+    req.tv_nsec = (milliseconds % 1000) * 1000000L;
 
-    nanosleep(&ts, NULL);
+    nanosleep(&req, NULL);
 }
 
 long long ft_atoi(char *str)
@@ -41,4 +40,20 @@ long long ft_atoi(char *str)
 		i++;
 	}
 	return (result);
+}
+
+int ate_enough(t_philosopher   *philo)
+{
+    philo->shared_data->done_time = get_current_time_ms() - philo->shared_data->start;
+    if (philo->shared_data->meals == philo->shared_data->p_n)
+        return (1);
+    return (0);
+}
+
+int should_die(t_philosopher   *philo)
+{
+    philo->shared_data->death_time = get_current_time_ms() - philo->last_meal_time;
+    if (philo->shared_data->death_time >= philo->shared_data->t_d)
+        return (1);
+    return (0);
 }

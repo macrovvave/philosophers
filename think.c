@@ -6,23 +6,21 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:59:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/09 17:14:01 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/09 22:37:48 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-// consider adding the deat msg printing right after it got ditected in the monitor but in the thinking func
-
 void think(t_philosopher* philo)
 {
 	pthread_mutex_lock(&philo->shared_data->check_mutex);
-    if (philo->shared_data->check)
+    if(philo->shared_data->check )
     {
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
         unlock_forks(philo);
         return ;
     }
+	pthread_mutex_unlock(&philo->shared_data->check_mutex);     
     printf("[%ld]: %d is thinking\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
-    pthread_mutex_unlock(&philo->shared_data->check_mutex);    
 }
