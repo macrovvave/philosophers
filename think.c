@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:59:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/09 15:14:42 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/09 16:33:41 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void think(t_philosopher* philo)
         unlock_forks(philo);
         return ;
     }
-    printf("[%ld]; %d is thinking\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+    printf("[%ld]: %d is thinking\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
 	pthread_mutex_unlock(&philo->shared_data->check_mutex);    
 }
