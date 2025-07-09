@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/09 15:14:02 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/09 17:32:40 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 		i++;
     }
 	if (pthread_mutex_init(&data->check_mutex, NULL) 
-		|| pthread_mutex_init(&data->start_mutex, NULL)
 		|| pthread_mutex_init(&data->printing_mutex, NULL))
 		{
 			cleanup(data, philo, philosophers);

@@ -14,5 +14,5 @@ void sleep_func(t_philosopher* philo)
     }
 	printf("[%ld]: %d is sleeping\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
 	pthread_mutex_unlock(&philo->shared_data->check_mutex);
-    usleep(philo->shared_data->t_s * 1000);
+    precise_sleep(philo->shared_data->t_s);
 }

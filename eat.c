@@ -21,7 +21,7 @@ void eat(t_philosopher* philo)
         philo->shared_data->meals++;
     pthread_mutex_unlock(&philo->shared_data->printing_mutex);
 
-    usleep(philo->shared_data->t_e * 1000);
+    precise_sleep(philo->shared_data->t_e);
 
     unlock_forks(philo);    
 }

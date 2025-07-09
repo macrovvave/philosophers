@@ -1,35 +1,5 @@
 #include "philosophers.h"
 
-void lock_forks(t_philosopher* philo )
-{
-    pthread_mutex_lock(&philo->shared_data->forks[philo->left_fork_id]);
-    if (philo->shared_data->one == false)
-        pthread_mutex_lock(&philo->shared_data->forks[philo->right_fork_id]);
-    // After both forks are locked, check if simulation has ended
-    pthread_mutex_lock(&philo->shared_data->check_mutex);
-    if (!philo->shared_data->check)
-    {
-        pthread_mutex_lock(&philo->shared_data->printing_mutex);
-    	if (!philo->shared_data->one)
-            printf("[%ld]: %d has taken two forks\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
-        else
-            printf("[%ld]: %d has taken one fork\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
-        pthread_mutex_unlock(&philo->shared_data->printing_mutex);
-    }
-    else
-    {
-        pthread_mutex_unlock(&philo->shared_data->check_mutex);
-        return;
-    }
-    pthread_mutex_unlock(&philo->shared_data->check_mutex);
-}
-
-void unlock_forks(t_philosopher* philo )
-{
-    if (!philo->shared_data->one)
-        pthread_mutex_unlock(&philo->shared_data->forks[philo->right_fork_id]);
-    pthread_mutex_unlock(&philo->shared_data->forks[philo->left_fork_id]);
-}
 
 void* routine(void* arg)
 {
@@ -38,7 +8,6 @@ void* routine(void* arg)
 
     while ((philo->meals_eaten < data->meals_to_eat || data->meals_to_eat == -1))
     {
-        // Before starting, check if simulation ended
         pthread_mutex_lock(&data->check_mutex);
         if (data->check)
         {
@@ -53,7 +22,6 @@ void* routine(void* arg)
         sleep_func(philo);
         think(philo);
 
-        // If you want to exit after meals, check here
         if (data->meals_to_eat != -1 && philo->meals_eaten >= data->meals_to_eat)
             break;
     }
@@ -70,28 +38,20 @@ void *monitor(void *arg)
     while (!philo->shared_data->check)
     {
         i = 0;
-        while (i < philo->shared_data->p_n)
+        while (i++ < philo->shared_data->p_n)
         {
             if (philo->shared_data->meals == philo->shared_data->p_n
                 || (get_current_time_ms() - philo->last_meal_time > philo->shared_data->t_d))
-            { 
-                if (philo->shared_data->meals == philo->shared_data->p_n)
-                {
-                    printf("[%ld]: all the philos ate thier meals\n", (get_current_time_ms() - philo->shared_data->start));
-                    pthread_mutex_lock(&philo->shared_data->check_mutex); 
-                    philo->shared_data->check = true;
-                    pthread_mutex_unlock(&philo->shared_data->check_mutex);
-                }
+            {
+                pthread_mutex_lock(&philo->shared_data->check_mutex); 
+                philo->shared_data->check = true;
+                if ((get_current_time_ms() - philo->last_meal_time > philo->shared_data->t_d))
+                    printf("[%ld]: %d died\n",(get_current_time_ms() - philo->shared_data->start), philo->id);
                 else
-                {
-                    printf("[%ld]: philo -> %d died\n",(get_current_time_ms() - philo->shared_data->start), philo->id);
-                    pthread_mutex_lock(&philo->shared_data->check_mutex); 
-                    philo->shared_data->check = true;
-                    pthread_mutex_unlock(&philo->shared_data->check_mutex);
-                }
+                    printf("[%ld]: all the philos ate thier meals\n", (get_current_time_ms() - philo->shared_data->start));
+                pthread_mutex_unlock(&philo->shared_data->check_mutex);
                 return (NULL);
             }
-            i++;
         }
         precise_sleep(1000);
     }

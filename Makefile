@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -ggdb
 NAME = philo
 
-SRC = main.c helpers.c eat.c exit.c launch.c sleep.c think.c
+SRC = main.c helpers.c eat.c exit.c launch.c sleep.c think.c locking.c
 
 OBJ = $(SRC:.c=.o)
 

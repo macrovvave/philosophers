@@ -26,7 +26,7 @@ typedef struct s_data
 	long start;
 	pthread_mutex_t *forks;
 	pthread_mutex_t check_mutex;       // Pointer to shared program data
-	pthread_mutex_t start_mutex;       // Pointer to shared program data
+	// pthread_mutex_t start_mutex;       // Pointer to shared program data
 	pthread_mutex_t printing_mutex;
 } t_data;
 
@@ -49,6 +49,7 @@ void precise_sleep(int milliseconds);
 void sleep_func( t_philosopher* philo);
 void think( t_philosopher* philo);
 void eat( t_philosopher* philo);
+void lock_forks(t_philosopher* philo );
 void unlock_forks(t_philosopher* philo );
 t_data *data();
 
