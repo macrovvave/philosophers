@@ -3,13 +3,13 @@
 void eat(t_philosopher* philo)
 {
     pthread_mutex_lock(&philo->shared_data->check_mutex);
-    if(philo->shared_data->check)
+    if(philo->shared_data->check || philo->shared_data->one)
     {
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
         unlock_forks(philo);
         return ;
     }
-    printf("[%ld]: %d is eating\n", get_elapsed_time(philo->shared_data->start), philo->id);
+    printf("[%ld]: %d is eating\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
 	pthread_mutex_unlock(&philo->shared_data->check_mutex);
 
     pthread_mutex_lock(&philo->meal_mutex);  // lock before writing
@@ -20,6 +20,8 @@ void eat(t_philosopher* philo)
     if (philo->meals_eaten == philo->shared_data->meals_to_eat)
         philo->shared_data->meals++;
     pthread_mutex_unlock(&philo->shared_data->printing_mutex);
-    precise_sleep(philo->shared_data->t_e);
+
+    usleep(philo->shared_data->t_e * 1000);
+
     unlock_forks(philo);    
 }

@@ -3,14 +3,17 @@
 void lock_forks(t_philosopher* philo )
 {
     pthread_mutex_lock(&philo->shared_data->forks[philo->left_fork_id]);
-    pthread_mutex_lock(&philo->shared_data->forks[philo->right_fork_id]);
-
+    if (philo->shared_data->one == false)
+        pthread_mutex_lock(&philo->shared_data->forks[philo->right_fork_id]);
     // After both forks are locked, check if simulation has ended
     pthread_mutex_lock(&philo->shared_data->check_mutex);
     if (!philo->shared_data->check)
     {
         pthread_mutex_lock(&philo->shared_data->printing_mutex);
-    	printf("[%ld]: %d has taken two forks\n", get_elapsed_time(philo->shared_data->start), philo->id);
+    	if (!philo->shared_data->one)
+            printf("[%ld]: %d has taken two forks\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+        else
+            printf("[%ld]: %d has taken one fork\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
         pthread_mutex_unlock(&philo->shared_data->printing_mutex);
     }
     else
@@ -23,7 +26,8 @@ void lock_forks(t_philosopher* philo )
 
 void unlock_forks(t_philosopher* philo )
 {
-    pthread_mutex_unlock(&philo->shared_data->forks[philo->right_fork_id]);
+    if (!philo->shared_data->one)
+        pthread_mutex_unlock(&philo->shared_data->forks[philo->right_fork_id]);
     pthread_mutex_unlock(&philo->shared_data->forks[philo->left_fork_id]);
 }
 
@@ -57,64 +61,32 @@ void* routine(void* arg)
 }
 
 
-// void    monitoring_closing_ths(t_philosopher *philo, t_data *data, int i, int check)
-// {
-//     if (!check)
-//     {
-//     	pthread_mutex_lock(&data->printing_mutex);
-//         printing(philo, 4);
-//         pthread_mutex_unlock(&data->printing_mutex);
-//     }
-//     else
-//     {
-//         pthread_mutex_lock(&data->printing_mutex);
-//         printing(philo, 0);
-//         pthread_mutex_unlock(&data->printing_mutex);
-//     }
-//     pthread_mutex_unlock(&philo[i].meal_mutex);
-// }
-
-// pthread_mutex_lock(&philo[i].meal_mutex); // Protect last_meal_time
-//             printf("%d philo[i].meals_eaten == %d\n", philo[i].id, philo[i].meals_eaten);
-//         	if (philo[i].meals_eaten == data->meals_to_eat)
-//                 meals++;
-//             pthread_mutex_unlock(&philo[i].meal_mutex);
-
-void *monitor(void *arg) // fix this after fising the eace condition problem in launch, eat atc.
+void *monitor(void *arg)
 {
     t_philosopher   *philo;
-    t_data          *data;
     int i;
     
     philo  = (t_philosopher*)arg;
-    data = philo->shared_data;
-    while (!data->check)
+    while (!philo->shared_data->check)
     {
         i = 0;
-        while (i < data->p_n)
+        while (i < philo->shared_data->p_n)
         {
-            if (data->meals == data->p_n || should_die(&philo[i]))
+            if (philo->shared_data->meals == philo->shared_data->p_n
+                || (get_current_time_ms() - philo->last_meal_time > philo->shared_data->t_d))
             { 
-                pthread_mutex_lock(&data->check_mutex); 
-                data->check = true;
-                pthread_mutex_unlock(&data->check_mutex);
-                if (data->meals == data->p_n)
-                {
-	                // pthread_mutex_lock(&philo->shared_data->printing_mutex);
-                    printf("[%ld]: all the philos ate thier meals \n", get_elapsed_time(philo->shared_data->start));
-	                // pthread_mutex_unlock(&philo->shared_data->printing_mutex);
-                }
+                pthread_mutex_lock(&philo->shared_data->check_mutex); 
+                philo->shared_data->check = true;
+                pthread_mutex_unlock(&philo->shared_data->check_mutex);
+                if (philo->shared_data->meals == philo->shared_data->p_n)
+                    printf("[%ld]: all the philos ate thier meals \n", (get_current_time_ms() - philo->shared_data->start));
                 else
-                {
-	                // pthread_mutex_lock(&philo->shared_data->printing_mutex);
-                    printf("[%ld]: philooOooOo -> %d died\n", get_elapsed_time(philo->shared_data->start), philo->id);
-                	// pthread_mutex_unlock(&philo->shared_data->printing_mutex);					
-				}
+                    printf("[%ld]: philooOooOo -> %d died\n",(get_current_time_ms() - philo->shared_data->start), philo->id);
                 return (NULL);
             }
             i++;
         }
-        precise_sleep(500);
+        precise_sleep(1000);
     }
     return (NULL);
 }

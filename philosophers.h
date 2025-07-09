@@ -16,6 +16,7 @@ typedef struct s_data
 {
     int     meals;
 	bool check;
+    bool one;
 	long long p_n; // number of philosophers
 	long long t_d; // time to die
 	long long t_s; // time to sleep

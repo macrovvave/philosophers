@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/08 16:04:53 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:14:02 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_data *parse_args(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-
     if(!(data->t_s = atoi(argv[4])) || !(data->t_e = atoi(argv[3])) 
 		|| !(data->t_d = atoi(argv[2])) || !(data->p_n = atoi(argv[1])))
 	{
@@ -41,8 +40,11 @@ t_data *parse_args(int argc, char **argv)
 			return (NULL);
 		}
 	}
-	else
+    else
 		data->meals_to_eat = -1;
+    data->one = true;    
+    if (data->p_n > 1)
+        data->one = false;
     data->meals = 0;
     return data;
 }
