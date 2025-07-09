@@ -50,7 +50,6 @@ void sleep_func( t_philosopher* philo);
 void think( t_philosopher* philo);
 void eat( t_philosopher* philo);
 void unlock_forks(t_philosopher* philo );
-int should_die(t_philosopher* philo);
 t_data *data();
 
 
