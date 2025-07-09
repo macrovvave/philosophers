@@ -40,17 +40,10 @@ void *monitor(void *arg)
         i = 0;
         while (i++ < philo->shared_data->p_n)
         {
-            if (ate_enough(philo) || should_die(philo))
-            {
-                pthread_mutex_lock(&philo->shared_data->check_mutex); 
-                philo->shared_data->check = true;
-                pthread_mutex_unlock(&philo->shared_data->check_mutex);
-                if(philo->shared_data->meals == philo->shared_data->p_n)
-                    printf("[%ld]: all the philos ate thier meals\n", philo->shared_data->done_time);
-                else
-                    printf("[%ld]: %d died\n",philo->shared_data->death_time, philo->id);
+            if (should_die(philo))
                 return (NULL);
-            }
+            else if (ate_enough(philo))
+                return (NULL);
         }
         precise_sleep(1000);
     }

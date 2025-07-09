@@ -44,16 +44,27 @@ long long ft_atoi(char *str)
 
 int ate_enough(t_philosopher   *philo)
 {
-    philo->shared_data->done_time = get_current_time_ms() - philo->shared_data->start;
     if (philo->shared_data->meals == philo->shared_data->p_n)
+    {
+        pthread_mutex_lock(&philo->shared_data->check_mutex); 
+        printf("[%ld]: all the philos ate thier meals\n", (get_current_time_ms() - philo->shared_data->start));
+        philo->shared_data->check = true;
+        pthread_mutex_unlock(&philo->shared_data->check_mutex);
         return (1);
+    }
     return (0);
 }
 
 int should_die(t_philosopher   *philo)
 {
-    philo->shared_data->death_time = get_current_time_ms() - philo->last_meal_time;
+    philo->shared_data->death_time = get_current_time_ms() - philo->shared_data->start;
     if (philo->shared_data->death_time >= philo->shared_data->t_d)
+    {
+        pthread_mutex_lock(&philo->shared_data->check_mutex); 
+        printf("[%ld]: %d died\n",philo->shared_data->death_time, philo->id);
+        philo->shared_data->check = true;
+        pthread_mutex_unlock(&philo->shared_data->check_mutex);
         return (1);
+    }
     return (0);
 }
