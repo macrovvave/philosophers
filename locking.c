@@ -9,6 +9,7 @@ void lock_forks(t_philosopher* philo )
     pthread_mutex_lock(&philo->shared_data->check_mutex);
     if (!philo->shared_data->check)
     {
+        pthread_mutex_unlock(&philo->shared_data->check_mutex);
         pthread_mutex_lock(&philo->shared_data->printing_mutex);
     	if (!philo->shared_data->one)
             printf("[%ld]: %d has taken two forks\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
@@ -17,11 +18,7 @@ void lock_forks(t_philosopher* philo )
         pthread_mutex_unlock(&philo->shared_data->printing_mutex);
     }
     else
-    {
         pthread_mutex_unlock(&philo->shared_data->check_mutex);
-        return;
-    }
-    pthread_mutex_unlock(&philo->shared_data->check_mutex);
 }
 
 void unlock_forks(t_philosopher* philo )

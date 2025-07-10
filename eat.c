@@ -14,14 +14,14 @@ void eat(t_philosopher* philo)
 
     pthread_mutex_lock(&philo->meal_mutex);  // lock before writing
     philo->last_meal_time = get_current_time_ms();
-    pthread_mutex_unlock(&philo->meal_mutex);
-	// pthread_mutex_lock(&philo->shared_data->printing_mutex);
     philo->meals_eaten++;
     if (philo->meals_eaten == philo->shared_data->meals_to_eat)
         philo->shared_data->meals++;
+    pthread_mutex_unlock(&philo->meal_mutex);
+	// pthread_mutex_lock(&philo->shared_data->printing_mutex);
     // pthread_mutex_unlock(&philo->shared_data->printing_mutex);
 
-    precise_sleep(philo->shared_data->t_e);
+    usleep(philo->shared_data->t_e * 1000);
 
     unlock_forks(philo);    
 }

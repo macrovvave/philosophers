@@ -40,17 +40,9 @@ void	*monitor(void *arg)
 		while (i < philo->shared_data->p_n)
 		{
 			if (should_die(&philo[i]))
-			{
-				printf("[%ld]: %d died\n",
-					philo->shared_data->death_time, philo[i].id);
 				return (NULL);
-			}
 			if (ate_enough(philo))
-			{
-				printf("[%ld]: all the philos ate their meals\n",
-					philo->shared_data->done_time);
 				return (NULL);
-			}
 			i++;
 		}
 		usleep(1000);
@@ -62,7 +54,7 @@ void	*monitor(void *arg)
 
 void    threads_production(pthread_t *philos, t_philosopher *philosophers, int i)
 {
-    while(i < philosophers->shared_data->p_n && !philosophers->shared_data->check)
+    while(i < philosophers->shared_data->p_n)
     {
         pthread_create(&philos[i], NULL, routine, &philosophers[i]);
         i += 2;
@@ -74,11 +66,10 @@ void launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data)
     int i = 0;
     pthread_t monitor_thread;
 
-    data->start = get_current_time_ms();
     threads_production(philos, philo_struct, 0);
     if (philo_struct->shared_data->p_n >= 2)
     {
-        precise_sleep(100);
+        usleep(300);
         threads_production(philos, philo_struct, 1);
     }
     pthread_create(&monitor_thread, NULL, monitor, philo_struct);

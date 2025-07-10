@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/09 17:32:40 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/10 04:20:36 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ t_data *parse_args(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
-    if(!(data->t_s = atoi(argv[4])) || !(data->t_e = atoi(argv[3])) 
-		|| !(data->t_d = atoi(argv[2])) || !(data->p_n = atoi(argv[1])))
+    if(!(data->t_s = ft_atoi(argv[4])) || !(data->t_e = ft_atoi(argv[3])) 
+		|| !(data->t_d = ft_atoi(argv[2])) || !(data->p_n = ft_atoi(argv[1])))
 	{
 		free(data);
 		return (NULL);
 	}
 	if(argc == 6)
 	{
-		if(!(data->meals_to_eat = atoi(argv[5])))
+		if(!(data->meals_to_eat = ft_atoi(argv[5])))
 		{
 			free(data);
 			return (NULL);
@@ -117,6 +117,7 @@ int main(int ac, char **av)
 	}
 	inis(data, philo_structs, philosophers);
 	forks_inis(data, philo_structs, philosophers);
+    // printf("td = %lld | ts = %lld | te = %lld \n\n", data->t_d, data->t_s, data->t_e);
 	launch(philosophers, philo_structs, data);
 	cleanup(data, philo_structs, philosophers);
 }

@@ -3,8 +3,6 @@
 
 void sleep_func(t_philosopher* philo)
 {
-    
-
 	pthread_mutex_lock(&philo->shared_data->check_mutex);
     if(philo->shared_data->check)
     {
@@ -12,7 +10,7 @@ void sleep_func(t_philosopher* philo)
         unlock_forks(philo);
         return ;
     }
-	printf("[%ld]: %d is sleeping\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
 	pthread_mutex_unlock(&philo->shared_data->check_mutex);
-    precise_sleep(philo->shared_data->t_s);
+	printf("[%ld]: %d is sleeping\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+    usleep(philo->shared_data->t_s * 1000);
 }

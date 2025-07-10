@@ -45,14 +45,16 @@ long long ft_atoi(char *str)
 int	should_die(t_philosopher *philo)
 {
 	long	time_diff;
+    long    current;
 
 	pthread_mutex_lock(&philo->meal_mutex);
-	time_diff = get_current_time_ms() - philo->last_meal_time;
+	current = get_current_time_ms();
+    time_diff = current - philo->last_meal_time;
 	if (time_diff >= philo->shared_data->t_d)
 	{
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = 1;
-		philo->shared_data->death_time = time_diff;
+		printf("[%ld]: %d died\n", get_current_time_ms()- philo->shared_data->start, philo->id);
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
 		pthread_mutex_unlock(&philo->meal_mutex);
 		return (1);
@@ -63,25 +65,16 @@ int	should_die(t_philosopher *philo)
 
 int	ate_enough(t_philosopher *philo)
 {
-	int	i;
-	int	all_ate;
 
 	if (philo->shared_data->meals_to_eat <= 0)
 		return (0);
-	i = 0;
-	all_ate = 1;
-	while (i < philo->shared_data->p_n)
-	{
-		if (philo[i].meals_eaten < philo->shared_data->meals_to_eat)
-			all_ate = 0;
-		i++;
-	}
-	if (all_ate)
+
+	if (philo->shared_data->meals >= philo->shared_data->meals_to_eat)
 	{
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = 1;
-		philo->shared_data->done_time = get_current_time_ms()
-			- philo->shared_data->start;
+		printf("[%ld]: all the philos ate their meals\n",
+		    get_current_time_ms() - philo->shared_data->start);
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
 		return (1);
 	}
