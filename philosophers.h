@@ -56,6 +56,7 @@ int should_die(t_philosopher   *philo);
 int ate_enough(t_philosopher   *philo);
 t_data *data();
 void    ft_usleep(long duration);
+void printing(int check, t_philosopher *philo);
 
 
 #endif

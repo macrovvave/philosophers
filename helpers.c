@@ -9,23 +9,30 @@ long get_current_time_ms()
     return (ts.tv_sec * 1000L) + (ts.tv_nsec / 1000000L);
 }
 
-// Get elapsed time since program start
-long get_elapsed_time(long start_time)
+void printing(int check, t_philosopher *philo)
 {
-    return (get_current_time_ms() - start_time);
+	pthread_mutex_lock(&philo->shared_data->printing_mutex);
+    if(check == 6)
+        printf("[%ld]: %d has taken one fork\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+    else if(check == 7)
+        printf("[%ld]: %d has taken two forks\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+    else if(check == 1)
+	    printf("[%ld]: %d is sleeping\n", get_current_time_ms() - philo->shared_data->start, philo->id);
+    else if(check == 2)
+        printf("[%ld]: %d is eating\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+    else if(check == 3)
+        printf("[%ld]: %d died\n", get_current_time_ms()- philo->shared_data->start, philo->id);
+    else if(check == 4)
+    {
+        printf("[%ld]: all the philos ate their meals\n",
+		    get_current_time_ms() - philo->shared_data->start);
+    }
+    else if(check == 5)
+        printf("[%ld]: %d is thinking\n", (get_current_time_ms() - philo->shared_data->start), philo->id);
+    pthread_mutex_unlock(&philo->shared_data->printing_mutex);
 }
 
-// Sleep for specified milliseconds
 
-void precise_sleep(int milliseconds)
-{
-    struct timespec req;
-
-    req.tv_sec = milliseconds / 1000;
-    req.tv_nsec = (milliseconds % 1000) * 1000000L;
-
-    nanosleep(&req, NULL);
-}
 
 long long ft_atoi(char *str)
 {
@@ -51,7 +58,7 @@ int	should_die(t_philosopher *philo)
 	if (get_current_time_ms() - philo->last_meal_time > philo->shared_data->t_d)
 	{
 		pthread_mutex_unlock(&philo->meal_mutex);
-		printf("[%ld]: %d died\n", get_current_time_ms()- philo->shared_data->start, philo->id);
+		printing(3, philo);
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = 1;
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
@@ -71,8 +78,7 @@ int	ate_enough(t_philosopher *philo)
 	{
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = 1;
-		printf("[%ld]: all the philos ate their meals\n",
-		    get_current_time_ms() - philo->shared_data->start);
+		printing(4, philo);
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
 		return (1);
 	}
