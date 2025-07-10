@@ -42,29 +42,69 @@ long long ft_atoi(char *str)
 	return (result);
 }
 
-int ate_enough(t_philosopher   *philo)
+int	should_die(t_philosopher *philo)
 {
-    if (philo->shared_data->meals == philo->shared_data->p_n)
-    {
-        pthread_mutex_lock(&philo->shared_data->check_mutex); 
-        printf("[%ld]: all the philos ate thier meals\n", (get_current_time_ms() - philo->shared_data->start));
-        philo->shared_data->check = true;
-        pthread_mutex_unlock(&philo->shared_data->check_mutex);
-        return (1);
-    }
-    return (0);
+	long	time_diff;
+
+	time_diff = get_current_time_ms() - philo->shared_data->start;
+	pthread_mutex_lock(&philo->meal_mutex);
+	if (time_diff - philo->last_meal_time >= philo->shared_data->t_d)
+	{
+		pthread_mutex_lock(&philo->shared_data->check_mutex);
+		philo->shared_data->check = true;
+		philo->shared_data->death_time = time_diff;
+		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+		pthread_mutex_unlock(&philo->meal_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->meal_mutex);
+	return (0);
 }
 
-int should_die(t_philosopher   *philo)
+int	ate_enough(t_philosopher *philo)
 {
-    philo->shared_data->death_time = get_current_time_ms() - philo->shared_data->start;
-    if (philo->shared_data->death_time >= philo->shared_data->t_d)
-    {
-        pthread_mutex_lock(&philo->shared_data->check_mutex); 
-        printf("[%ld]: %d died\n",philo->shared_data->death_time, philo->id);
-        philo->shared_data->check = true;
-        pthread_mutex_unlock(&philo->shared_data->check_mutex);
-        return (1);
-    }
-    return (0);
+	int	all_ate;
+
+	if (philo->shared_data->meals_to_eat <= 0)
+		return (0);
+	all_ate = 1;
+	if (philo->shared_data->meals < philo->shared_data->meals_to_eat)
+		all_ate = 0;
+	if (all_ate)
+	{
+		pthread_mutex_lock(&philo->shared_data->check_mutex);
+		philo->shared_data->check = true;
+		philo->shared_data->done_time = get_current_time_ms()
+			- philo->shared_data->start;
+		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+		return (1);
+	}
+	return (0);
 }
+
+
+// int ate_enough(t_philosopher   *philo)
+// {
+//     if (philo->shared_data->meals == philo->shared_data->p_n)
+//     {
+//         philo->shared_data->done_time = get_current_time_ms() - philo->shared_data->start;
+//         pthread_mutex_lock(&philo->shared_data->check_mutex); 
+//         philo->shared_data->check = true;
+//         pthread_mutex_unlock(&philo->shared_data->check_mutex);
+//         return (1);
+//     }
+//     return (0);
+// }
+
+// int should_die(t_philosopher   *philo)
+// {
+//     philo->shared_data->death_time = get_current_time_ms() - philo->shared_data->start;
+//     if (philo->shared_data->death_time >= philo->shared_data->t_d)
+//     {
+//         pthread_mutex_lock(&philo->shared_data->check_mutex); 
+//         philo->shared_data->check = true;
+//         pthread_mutex_unlock(&philo->shared_data->check_mutex);
+//         return (1);
+//     }
+//     return (0);
+// }

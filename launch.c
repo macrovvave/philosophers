@@ -28,27 +28,63 @@ void* routine(void* arg)
     return NULL;
 }
 
-
-void *monitor(void *arg)
+void	*monitor(void *arg)
 {
-    t_philosopher   *philo;
-    int i;
-    
-    philo  = (t_philosopher*)arg;
-    while (!philo->shared_data->check)
-    {
-        i = 0;
-        while (i++ < philo->shared_data->p_n)
-        {
-            if (should_die(philo))
-                return (NULL);
-            else if (ate_enough(philo))
-                return (NULL);
-        }
-        precise_sleep(1000);
-    }
-    return (NULL);
+	t_philosopher	*philo;
+	int				i;
+
+	philo = (t_philosopher *)arg;
+	while (!philo->shared_data->check)
+	{
+		i = 0;
+		while (i < philo->shared_data->p_n)
+		{
+			if (should_die(&philo[i]))
+			{
+				printf("[%ld]: %d died\n",
+					philo->shared_data->death_time, philo[i].id);
+				return (NULL);
+			}
+			if (ate_enough(philo))
+			{
+				printf("[%ld]: all the philos ate their meals\n",
+					philo->shared_data->done_time);
+				return (NULL);
+			}
+			i++;
+		}
+		usleep(1000);
+	}
+	return (NULL);
 }
+
+
+// void *monitor(void *arg)
+// {
+//     t_philosopher   *philo;
+//     int i;
+    
+//     philo  = (t_philosopher*)arg;
+//     while (!philo->shared_data->check)
+//     {
+//         i = 0;
+//         while (i++ < philo->shared_data->p_n)
+//         {
+//             if (should_die(philo))
+//             {
+//                 printf("[%ld]: %d died\n",philo->shared_data->death_time, philo->id);
+//                 return (NULL);
+//             }
+//             else if (ate_enough(philo))
+//             {
+//                 printf("[%ld]: all the philos ate thier meals\n", philo->shared_data->done_time);
+//                 return (NULL);
+//             }
+//         }
+//         precise_sleep(1000);
+//     }
+//     return (NULL);
+// }
 
 void    threads_production(pthread_t *philos, t_philosopher *philosophers, int i)
 {
