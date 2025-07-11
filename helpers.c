@@ -42,21 +42,19 @@ long long ft_atoi(char *str)
 	return (result);
 }
 
+// print("has taken a fork", ptr);
+// print(char *str, t_philo *philo)
+
 int	should_die(t_philosopher *philo)
 {
-	long	time_diff;
-    long    current;
-
 	pthread_mutex_lock(&philo->meal_mutex);
-	current = get_current_time_ms();
-    time_diff = current - philo->last_meal_time;
-	if (time_diff >= philo->shared_data->t_d)
+	if (get_current_time_ms() - philo->last_meal_time > philo->shared_data->t_d)
 	{
+		pthread_mutex_unlock(&philo->meal_mutex);
+		printf("[%ld]: %d died\n", get_current_time_ms()- philo->shared_data->start, philo->id);
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = 1;
-		printf("[%ld]: %d died\n", get_current_time_ms()- philo->shared_data->start, philo->id);
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
-		pthread_mutex_unlock(&philo->meal_mutex);
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->meal_mutex);

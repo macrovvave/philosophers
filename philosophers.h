@@ -55,5 +55,7 @@ void unlock_forks(t_philosopher* philo );
 int should_die(t_philosopher   *philo);
 int ate_enough(t_philosopher   *philo);
 t_data *data();
+void    ft_usleep(long duration);
+
 
 #endif
