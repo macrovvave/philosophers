@@ -48,7 +48,7 @@ int	should_die(t_philosopher *philo)
 
 	pthread_mutex_lock(&philo->meal_mutex);
 	time_diff = get_current_time_ms() - philo->last_meal_time;
-	if (time_diff - philo->last_meal_time >= philo->shared_data->t_d)
+	if (time_diff >= philo->shared_data->t_d)
 	{
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = 1;
