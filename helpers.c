@@ -33,8 +33,8 @@ void printing(int check, t_philosopher *philo)
         printf("[%ld]: %d is thinking\n", el_time(philo->shared_data->start), philo->id);
     pthread_mutex_unlock(&philo->shared_data->printing_mutex);
 }
-
-long long ft_atoi(char *str)
+// ask  if some cases must be handled while working with atoi
+long long ft_atoi(char *str, long long *var)
 {
 	int i;
 	long long result;
@@ -46,7 +46,8 @@ long long ft_atoi(char *str)
 		result = result * 10 + (str[i] - 48);
 		i++;
 	}
-	return (result);
+	*var = result;
+	return (*var);
 }
 
 int	should_die(t_philosopher *philo)

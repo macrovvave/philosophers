@@ -22,7 +22,7 @@ typedef struct s_data
 	long long t_s; // time to sleep
 	long long t_e; // time to eat
 	int meals_to_eat;
-	// int number_of_meals;
+	long long tmp;
 	long start;
 	pthread_mutex_t *forks;
 	pthread_mutex_t check_mutex;       // Pointer to shared program data
@@ -41,7 +41,7 @@ typedef struct s_philosopher {
 
 void cleanup(t_data *data, t_philosopher *philos, pthread_t *threads);
 long get_current_time_ms();
-long long ft_atoi(char *str);
+long long ft_atoi(char *str, long long *var);
 void launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data);
 void sleep_func( t_philosopher* philo);
 void think( t_philosopher* philo);
