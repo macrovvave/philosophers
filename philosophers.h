@@ -14,8 +14,6 @@
 
 typedef struct s_data
 {
-    long death_time;
-    long done_time;
     int     meals;
 	bool check;
     bool one;
@@ -24,7 +22,7 @@ typedef struct s_data
 	long long t_s; // time to sleep
 	long long t_e; // time to eat
 	int meals_to_eat;
-	int number_of_meals;
+	// int number_of_meals;
 	long start;
 	pthread_mutex_t *forks;
 	pthread_mutex_t check_mutex;       // Pointer to shared program data
@@ -43,10 +41,8 @@ typedef struct s_philosopher {
 
 void cleanup(t_data *data, t_philosopher *philos, pthread_t *threads);
 long get_current_time_ms();
-long get_elapsed_time(long start_time);
 long long ft_atoi(char *str);
 void launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data);
-void precise_sleep(int milliseconds);
 void sleep_func( t_philosopher* philo);
 void think( t_philosopher* philo);
 void eat( t_philosopher* philo);
@@ -55,7 +51,7 @@ void unlock_forks(t_philosopher* philo );
 int should_die(t_philosopher   *philo);
 int ate_enough(t_philosopher   *philo);
 t_data *data();
-void    ft_usleep(long duration);
+void ft_usleep(long long duration, t_philosopher *philo);
 void printing(int check, t_philosopher *philo);
 
 

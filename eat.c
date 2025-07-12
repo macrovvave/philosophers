@@ -18,7 +18,7 @@ void eat(t_philosopher* philo)
         philo->shared_data->meals++;
     pthread_mutex_unlock(&philo->meal_mutex);
 
-    ft_usleep(philo->shared_data->t_e);
+    ft_usleep(philo->shared_data->t_e, philo);
 
     unlock_forks(philo);    
 }

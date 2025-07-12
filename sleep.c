@@ -1,30 +1,49 @@
 #include "philosophers.h"
 
-void    ft_usleep(long duration)
-{
-    long start;
+// void ft_usleep(long long duration)
+// {
+//     long start;
 
-    start = get_current_time_ms();
-    while (true)
+//     start = get_current_time_ms();
+//     while (true)
+//     {
+//         if (get_current_time_ms() - start >= duration)
+//             return;
+//         usleep(400);
+//     }
+// }
+
+void ft_usleep(long long duration, t_philosopher *philo)
+{
+    long long end_time;
+
+    end_time = get_current_time_ms() + duration;
+    while(get_current_time_ms() < end_time)
     {
-        if (get_current_time_ms() - start >= duration)
+		pthread_mutex_lock(&philo->shared_data->check_mutex);
+        if(philo->shared_data->check)
+        {
+    		pthread_mutex_unlock(&philo->shared_data->check_mutex); 
             return ;
-        usleep (400);
+        }
+		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+        usleep(100);
     }
 }
 
-void sleep_func(t_philosopher* philo)
+
+void sleep_func(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->shared_data->check_mutex);
-    if(philo->shared_data->check)
+    pthread_mutex_lock(&philo->shared_data->check_mutex);
+    if (philo->shared_data->check)
     {
-		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+        pthread_mutex_unlock(&philo->shared_data->check_mutex);
         unlock_forks(philo);
-        return ;
+        return;
     }
-	pthread_mutex_unlock(&philo->shared_data->check_mutex);
-	printing(1, philo);
-    ft_usleep(philo->shared_data->t_s);
+    pthread_mutex_unlock(&philo->shared_data->check_mutex);
+    printing(1, philo);
+    ft_usleep(philo->shared_data->t_s, philo);
 }
 
 //  split duration sleep into const chunks of time like ~500

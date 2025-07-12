@@ -37,7 +37,7 @@ void	*monitor(void *arg)
 		{
 			if (should_die(&philo[i]))
 				return (NULL);
-			if (ate_enough(philo))
+			else if (ate_enough(&philo[i]))
 				return (NULL);
 			i++;
 		}
@@ -63,8 +63,11 @@ void launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data)
     pthread_t monitor_thread;
 
     threads_production(philos, philo_struct, 0);
-    usleep(300);
-    threads_production(philos, philo_struct, 1);
+    if(data->p_n > 1)
+    {
+        usleep(300);
+        threads_production(philos, philo_struct, 1);
+    }
     pthread_create(&monitor_thread, NULL, monitor, philo_struct);
     pthread_join(monitor_thread, NULL);
     i = 0;
