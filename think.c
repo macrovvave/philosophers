@@ -6,21 +6,21 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:59:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 17:24:13 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/10 05:14:24 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	think(t_philosopher *philo)
+void think(t_philosopher* philo)
 {
 	pthread_mutex_lock(&philo->shared_data->check_mutex);
-	if (philo->shared_data->check)
-	{
+    if(philo->shared_data->check )
+    {
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
-		unlock_forks(philo);
-		return ;
-	}
-	pthread_mutex_unlock(&philo->shared_data->check_mutex);
-	printing(5, philo);
+        unlock_forks(philo);
+        return ;
+    }
+	pthread_mutex_unlock(&philo->shared_data->check_mutex);     
+    printing(5, philo);
 }

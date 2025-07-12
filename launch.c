@@ -1,39 +1,27 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   launch.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/12 16:23:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 16:27:48 by hoel-mos         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philosophers.h"
 
-void	*routine(void *arg)
-{
-	t_philosopher	*philo;
-	t_data			*data;
 
-	philo = (t_philosopher *)arg;
-	data = philo->shared_data;
-	while (philo->meals_eaten < data->meals_to_eat || data->meals_to_eat == -1)
-	{
-		pthread_mutex_lock(&data->check_mutex);
-		if (data->check)
-		{
-			pthread_mutex_unlock(&data->check_mutex);
-			break ;
-		}
-		pthread_mutex_unlock(&data->check_mutex);
-		lock_forks(philo);
-		eat(philo);
-		sleep_func(philo);
-		think(philo);
-	}
-	return (NULL);
+void* routine(void* arg)
+{
+    t_philosopher   *philo = (t_philosopher*)arg;
+    t_data          *data = philo->shared_data;
+
+    while (philo->meals_eaten < data->meals_to_eat || data->meals_to_eat == -1)
+    {
+        pthread_mutex_lock(&data->check_mutex);
+        if (data->check)
+        {
+            pthread_mutex_unlock(&data->check_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&data->check_mutex);
+        lock_forks(philo);
+
+        eat(philo);
+        sleep_func(philo);
+        think(philo);
+    }
+    return NULL;
 }
 
 void	*monitor(void *arg)
@@ -58,29 +46,32 @@ void	*monitor(void *arg)
 	return (NULL);
 }
 
-void	threads_production(pthread_t *philos, t_philosopher *philo, int i)
+
+
+void    threads_production(pthread_t *philos, t_philosopher *philosophers, int i)
 {
-	while (i < philo->shared_data->p_n)
-	{
-		pthread_create(&philos[i], NULL, routine, &philo[i]);
-		i += 2;
-	}
+    while(i < philosophers->shared_data->p_n)
+    {
+        pthread_create(&philos[i], NULL, routine, &philosophers[i]);
+        i += 2;
+    }
 }
 
-void	launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data)
+void launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data)
 {
-	int			i;
-	pthread_t	monitor_thread;
+    int i = 0;
+    pthread_t monitor_thread;
 
-	threads_production(philos, philo_struct, 0);
-	if (data->p_n > 1)
-	{
-		usleep(300);
-		threads_production(philos, philo_struct, 1);
-	}
-	pthread_create(&monitor_thread, NULL, monitor, philo_struct);
-	pthread_join(monitor_thread, NULL);
-	i = 0;
-	while (i < data->p_n)
-		pthread_join(philos[i++], NULL);
+    threads_production(philos, philo_struct, 0);
+    if(data->p_n > 1)
+    {
+        usleep(300);
+        threads_production(philos, philo_struct, 1);
+    }
+    pthread_create(&monitor_thread, NULL, monitor, philo_struct);
+    pthread_join(monitor_thread, NULL);
+    i = 0;
+    while (i < data->p_n)
+        pthread_join(philos[i++], NULL);
 }
+
