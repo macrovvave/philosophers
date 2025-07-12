@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 16:23:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 17:10:30 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/12 16:27:48 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,6 @@ void	*monitor(void *arg)
 	}
 	return (NULL);
 }
-
-// ./philo 3 120 60 60    
-// [0]: 2 has taken two forks
-// [0]: 2 is eating
-// [60]: 2 is sleeping
-// [60]: 1 has taken two forks
-// [60]: 1 is eating
-// [120]: 1 is sleeping
-// [120]: 0 died
-// [120]: 2 is thinking
-
 
 void	threads_production(pthread_t *philos, t_philosopher *philo, int i)
 {
