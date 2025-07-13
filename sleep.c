@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:33:35 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 12:35:56 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:55:23 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 long	get_current_time_ms(void)
 {
-	struct timespec	ts;
+    struct timeval	tv;
 
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	return ((ts.tv_sec * 1000L) + (ts.tv_nsec / 1000000L));
+    gettimeofday(&tv, NULL);
+    return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 long	el_time(long start_time)
