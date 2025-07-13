@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   think.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:59:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 21:48:30 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/12 23:57:00 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ void	think(t_philosopher *philo)
 	if (philo->shared_data->check)
 	{
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
-		unlock_forks(philo);
+		printing(5, philo);
 		return ;
 	}
 	pthread_mutex_unlock(&philo->shared_data->check_mutex);
-	printing(5, philo);
 }

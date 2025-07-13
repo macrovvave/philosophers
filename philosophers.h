@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 21:49:16 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/12 23:44:08 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_data
 	long				start;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		check_mutex;
+	pthread_mutex_t		sleep_mutex;
 	pthread_mutex_t		printing_mutex;
 }						t_data;
 

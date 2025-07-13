@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:23:17 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 21:42:32 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/13 01:54:48 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ void	printing(int check, t_philosopher *philo)
 {
 	long long	start;
 
-	pthread_mutex_lock(&philo->shared_data->printing_mutex);
+	pthread_mutex_lock(&philo->shared_data->check_mutex);
 	start = philo->shared_data->start;
-	if (check == 3)
-		printf("[%ld]: %d died\n", el_time(start), philo->id);
-	else if (check == 7)
+	if (check == 3 && !philo->shared_data->check)
+		printf("[%ld]: %d =========================> died\n", el_time(start), philo->id);
+	else if (check == 7 && !philo->shared_data->check)
 		printf("[%ld]: %d has taken two forks\n", el_time(start), philo->id);
-	else if (check == 1)
+	else if (check == 1 && !philo->shared_data->check)
 		printf("[%ld]: %d is sleeping\n", el_time(start), philo->id);
-	else if (check == 2)
+	else if (check == 2 && !philo->shared_data->check)
 		printf("[%ld]: %d is eating\n", el_time(start), philo->id);
-	else if (check == 6)
+	else if (check == 6 && !philo->shared_data->check)
 		printf("[%ld]: %d has taken one fork\n", el_time(start), philo->id);
-	else if (check == 4)
+	else if (check == 4 && !philo->shared_data->check)
 		printf("[%ld]: all the philos ate their meals\n", el_time(start));
-	else if (check == 5)
+	else if (check == 5 && !philo->shared_data->check)
 		printf("[%ld]: %d is thinking\n", el_time(start), philo->id);
-	pthread_mutex_unlock(&philo->shared_data->printing_mutex);
+	pthread_mutex_unlock(&philo->shared_data->check_mutex);
 }
 
 void	*routine(void *arg)
@@ -76,7 +76,7 @@ void	*monitor(void *arg)
 				return (NULL);
 			i++;
 		}
-		ft_usleep(400, philo);
+		usleep(400);
 	}
 	return (NULL);
 }
@@ -98,7 +98,7 @@ void	launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data)
 	threads_production(philos, philo_struct, 0);
 	if (data->p_n > 1)
 	{
-		ft_usleep(300, philo_struct);
+		usleep(300);
 		threads_production(philos, philo_struct, 1);
 	}
 	pthread_create(&monitor_thread, NULL, monitor, philo_struct);

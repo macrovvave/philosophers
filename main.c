@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 21:20:07 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/13 03:26:19 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	main(int ac, char **av)
 
 	data = parse_args(ac, av);
 	if ((ac != 5 && ac != 6) || !data)
-		return (0);
+		return (printf("wrong input\n"), 0);
 	else
 	{
 		data->start = get_current_time_ms();
@@ -105,10 +105,7 @@ int	main(int ac, char **av)
 		data->forks = malloc(sizeof(pthread_mutex_t) * data->p_n);
 		philo_structs = malloc(sizeof(t_philosopher) * data->p_n);
 		if (!philosophers || !data->forks || !philo_structs)
-		{
-			cleanup(data, philo_structs, philosophers);
-			return (0);
-		}
+			return (cleanup(data, philo_structs, philosophers), 0);
 	}
 	inis(data, philo_structs, philosophers);
 	forks_inis(data, philo_structs, philosophers);

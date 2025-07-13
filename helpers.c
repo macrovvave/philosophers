@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 21:41:53 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/13 03:21:33 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@ long	el_time(long start_time)
 	return (get_current_time_ms() - start_time);
 }
 
-long long	ft_atoi(char *str, long long *var)
+long long	ft_atoi(char *num, long long *var)
 {
 	int			i;
 	long long	result;
 
 	i = 0;
 	result = 0;
-	while (str[i] >= '0' && str[i] <= '9')
+	while (num[i])
 	{
-		result = result * 10 + (str[i] - 48);
+		if (!(num[i] >= '0' && num[i] <= '9'))
+			return (0);
+		result = result * 10 + (num[i] - 48);
 		i++;
 	}
 	*var = result;
