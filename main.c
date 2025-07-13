@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 14:39:44 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/13 17:57:54 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_data	*parse_args(int argc, char **argv)
 {
 	t_data	*data;
 
+	if (argc != 5 && argc != 6)
+		return (NULL);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
@@ -95,7 +97,7 @@ int	main(int ac, char **av)
 	t_philosopher	*philo_structs;
 
 	data = parse_args(ac, av);
-	if ((ac != 5 && ac != 6) || !data)
+	if (!data)
 	{
 		printf("philo: invalid argument, try again.\n");
 		return (0);
