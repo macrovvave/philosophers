@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 12:36:11 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:39:44 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 		}
 		i++;
 	}
-	if (pthread_mutex_init(&data->check_mutex, NULL)
-		|| pthread_mutex_init(&data->printing_mutex, NULL))
+	if (pthread_mutex_init(&data->check_mutex, NULL))
 	{
 		cleanup(data, philo, philosophers);
 		exit(1);

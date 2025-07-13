@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 12:36:39 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/13 14:40:57 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
-
-# define _GNU_SOURCE
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -37,7 +35,6 @@ typedef struct s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		check_mutex;
 	pthread_mutex_t		sleep_mutex;
-	pthread_mutex_t		printing_mutex;
 }						t_data;
 
 typedef struct s_philosopher
