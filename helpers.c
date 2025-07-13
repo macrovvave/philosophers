@@ -3,26 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 03:21:33 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/13 12:38:05 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-long	get_current_time_ms(void)
+int	check_values(t_data *data)
 {
-	struct timespec	ts;
-
-	clock_gettime(CLOCK_MONOTONIC, &ts);
-	return ((ts.tv_sec * 1000L) + (ts.tv_nsec / 1000000L));
-}
-
-long	el_time(long start_time)
-{
-	return (get_current_time_ms() - start_time);
+	if (data->p_n > 200)
+	{
+		printf("number of philosophers must be at most 200, try again.\n");
+		free(data);
+		return (0);
+	}
+	if (data->t_d < 60 || data->t_e < 60 || data->t_s < 60)
+	{
+		printf("time to die, eat, sleep, must at least be 60ms, try again.\n");
+		free(data);
+		return (0);
+	}
+	return (1);
 }
 
 long long	ft_atoi(char *num, long long *var)

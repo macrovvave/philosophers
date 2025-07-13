@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 03:26:19 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/13 12:36:11 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,12 @@ int	main(int ac, char **av)
 
 	data = parse_args(ac, av);
 	if ((ac != 5 && ac != 6) || !data)
-		return (printf("wrong input\n"), 0);
+	{
+		printf("philo: invalid argument, try again.\n");
+		return (0);
+	}
+	if (!check_values(data))
+		return (0);
 	else
 	{
 		data->start = get_current_time_ms();

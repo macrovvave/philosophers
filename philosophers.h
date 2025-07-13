@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 23:44:08 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/13 12:36:39 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void		lock_forks(t_philosopher *philo);
 void		unlock_forks(t_philosopher *philo);
 int			should_die(t_philosopher *philo);
 int			ate_enough(t_philosopher *philo);
+int			check_values(t_data *data);
 void		ft_usleep(long long duration, t_philosopher *philo);
 void		printing(int check, t_philosopher *philo);
 long		el_time(long start_time);

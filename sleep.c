@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:33:35 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/12 23:56:38 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/13 12:35:56 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+long	get_current_time_ms(void)
+{
+	struct timespec	ts;
+
+	clock_gettime(CLOCK_MONOTONIC, &ts);
+	return ((ts.tv_sec * 1000L) + (ts.tv_nsec / 1000000L));
+}
+
+long	el_time(long start_time)
+{
+	return (get_current_time_ms() - start_time);
+}
 
 void	ft_usleep(long long duration, t_philosopher *philo)
 {
