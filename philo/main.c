@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 18:46:40 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 19:22:39 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,17 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 		philo[i].last_meal_time = get_current_time_ms();
 		philo[i].meals_eaten = 0;
 		philo[i].shared_data = data;
-		if (pthread_mutex_init(&philo[i].meal_mutex, NULL)
-			|| pthread_mutex_init(&philo[i].print, NULL))
+		if (pthread_mutex_init(&philo[i].meal_mutex, NULL))
 		{
 			cleanup(data, philo, philosophers);
 			exit(1);
 		}
 		i++;
+	}
+	if (pthread_mutex_init(&philo->shared_data->print, NULL))
+	{
+		cleanup(data, philo, philosophers);
+		exit(1);
 	}
 	data->check = false;
 }

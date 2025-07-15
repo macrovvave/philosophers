@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 18:03:06 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:26:16 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_print(char *txt, long time, t_philosopher *philo, int n)
 {
+	pthread_mutex_lock(&philo->shared_data->print);
 	if (!n && !philo->shared_data->check)
 	{
 		printf("[%ld]: ", time);
@@ -25,6 +26,7 @@ void	ft_print(char *txt, long time, t_philosopher *philo, int n)
 		printf("[%ld]: ", time);
 		printf("%s\n", txt);
 	}
+	pthread_mutex_unlock(&philo->shared_data->print);
 }
 
 int	check_values(t_data *data)
@@ -71,9 +73,7 @@ int	should_die(t_philosopher *philo)
 	if (get_current_time_ms() - philo->last_meal_time > t_d)
 	{
 		pthread_mutex_unlock(&philo->meal_mutex);
-		pthread_mutex_lock(&philo->print);
 		printing(3, philo);
-		pthread_mutex_unlock(&philo->print);
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = true;
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
@@ -91,9 +91,7 @@ int	ate_enough(t_philosopher *philo)
 	if (philo->shared_data->meals >= philo->shared_data->p_n)
 	{
 		pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex);
-		pthread_mutex_lock(&philo->print);
 		printing(4, philo);
-		pthread_mutex_unlock(&philo->print);
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = true;
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);

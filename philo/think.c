@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:59:21 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 16:36:12 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 19:26:38 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	think(t_philosopher *philo)
 	if (philo->shared_data->check)
 	{
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
-		pthread_mutex_lock(&philo->print);
 		printing(5, philo);
-		pthread_mutex_unlock(&philo->print);
 		if (philo->id % 2 == 0)
 		{
 			t_d = philo->shared_data->t_d;
