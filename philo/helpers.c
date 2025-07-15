@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 02:00:33 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 16:51:22 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	should_die(t_philosopher *philo)
 	if (get_current_time_ms() - philo->last_meal_time > t_d)
 	{
 		pthread_mutex_unlock(&philo->meal_mutex);
+		pthread_mutex_lock(&philo->print);
 		printing(3, philo);
+		pthread_mutex_unlock(&philo->print);
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = true;
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
@@ -83,15 +85,21 @@ int	should_die(t_philosopher *philo)
 
 int	ate_enough(t_philosopher *philo)
 {
+	pthread_mutex_lock(&philo->shared_data->data_meal_counter_mutex);	
 	if (philo->shared_data->meals_to_eat <= 0)
 		return (0);
 	if (philo->shared_data->meals >= philo->shared_data->p_n)
 	{
+		pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex);
+		pthread_mutex_lock(&philo->print);
 		printing(4, philo);
+		pthread_mutex_unlock(&philo->print);
 		pthread_mutex_lock(&philo->shared_data->check_mutex);
 		philo->shared_data->check = true;
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex);
 	return (0);
+	
 }

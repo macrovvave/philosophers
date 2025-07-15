@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   locking.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:44:46 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 14:15:32 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/15 16:38:09 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ void	lock_forks(t_philosopher *philo )
 	if (!philo->shared_data->check)
 	{
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+		pthread_mutex_lock(&philo->print);
 		if (!philo->shared_data->one)
 			printing(7, philo);
 		else
 			printing(6, philo);
+		pthread_mutex_unlock(&philo->print);
 	}
 	else
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);

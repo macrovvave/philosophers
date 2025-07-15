@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:33:35 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 14:57:37 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/15 16:37:59 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	sleep_func(t_philosopher *philo)
 	if (!philo->shared_data->check)
 	{
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+		pthread_mutex_lock(&philo->print);
 		printing(1, philo);
+		pthread_mutex_unlock(&philo->print);
 		ft_usleep(philo->shared_data->t_s, philo);
 		return ;
 	}

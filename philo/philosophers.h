@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 02:00:56 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 16:47:57 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_data
 	long				start;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		check_mutex;
-	pthread_mutex_t		sleep_mutex;
+	pthread_mutex_t		data_meal_counter_mutex;
 }						t_data;
 
 typedef struct s_philosopher
@@ -46,6 +46,7 @@ typedef struct s_philosopher
 	int					meals_eaten;
 	t_data				*shared_data;
 	pthread_mutex_t		meal_mutex;
+	pthread_mutex_t		print;
 }						t_philosopher;
 
 void		ft_print(char *txt, long time, t_philosopher *philo, int n);
