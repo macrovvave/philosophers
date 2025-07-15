@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 16:48:54 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 18:37:47 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ void	forks_inis(t_data *data, t_philosopher *philo_s, pthread_t *philo)
 		}
 		i++;
 	}
+	if (pthread_mutex_init(&data->check_mutex, NULL)
+		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL))
+	{
+		cleanup(data, philo_s, philo);
+		exit(1);
+	}
 }
 
 void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
@@ -82,12 +88,6 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 			exit(1);
 		}
 		i++;
-	}
-	if (pthread_mutex_init(&data->check_mutex, NULL)
-		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL))
-	{
-		cleanup(data, philo, philosophers);
-		exit(1);
 	}
 	data->check = false;
 }
