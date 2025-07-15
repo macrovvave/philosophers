@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 16:51:22 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 18:03:06 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	should_die(t_philosopher *philo)
 
 int	ate_enough(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->shared_data->data_meal_counter_mutex);	
+	pthread_mutex_lock(&philo->shared_data->data_meal_counter_mutex);
 	if (philo->shared_data->meals_to_eat <= 0)
 		return (0);
 	if (philo->shared_data->meals >= philo->shared_data->p_n)
@@ -101,5 +101,4 @@ int	ate_enough(t_philosopher *philo)
 	}
 	pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex);
 	return (0);
-	
 }

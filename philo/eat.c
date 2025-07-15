@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:42:55 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 16:49:58 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 18:03:47 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ void	eat(t_philosopher *philo)
 		pthread_mutex_lock(&philo->meal_mutex);
 		philo->last_meal_time = get_current_time_ms();
 		philo->meals_eaten++;
-
 		pthread_mutex_lock(&philo->shared_data->data_meal_counter_mutex);
 		if (philo->meals_eaten == philo->shared_data->meals_to_eat)
-			philo->shared_data->meals++; // a hoe ditected
+			philo->shared_data->meals++;
 		pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex);
-
-		
 		pthread_mutex_unlock(&philo->meal_mutex);
 		ft_usleep(philo->shared_data->t_e, philo);
 		unlock_forks(philo);
