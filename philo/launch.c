@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:23:17 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 02:00:19 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 14:19:16 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	*monitor(void *arg)
 				return (NULL);
 			i++;
 		}
-		usleep(400);
+		ft_usleep(400, philo);
 	}
 	return (NULL);
 }
@@ -98,7 +98,7 @@ void	launch(pthread_t *philos, t_philosopher *philo_struct, t_data *data)
 	threads_production(philos, philo_struct, 0);
 	if (data->p_n > 1)
 	{
-		usleep(300);
+		usleep(400);
 		threads_production(philos, philo_struct, 1);
 	}
 	pthread_create(&monitor_thread, NULL, monitor, philo_struct);

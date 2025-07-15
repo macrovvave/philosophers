@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:42:55 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 11:47:21 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:17:55 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	eat(t_philosopher *philo)
 {
 	pthread_mutex_lock(&philo->shared_data->check_mutex);
-	if (!philo->shared_data->check || !philo->shared_data->one)
+	if (!philo->shared_data->check && !philo->shared_data->one)
 	{
 		pthread_mutex_unlock(&philo->shared_data->check_mutex);
 		printing(2, philo);
