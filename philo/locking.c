@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   locking.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:44:46 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 18:02:25 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:46:50 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	lock_forks(t_philosopher *philo )
 {
 	if (philo->id % 2 == 0)	
 	{
-		pthread_mutex_lock(&philo->shared_data->forks[philo->left_fork_id]); // change left and right forks'names to f_fork and r_fork
+		pthread_mutex_lock(&philo->shared_data->forks[philo->l_fork]);
 		if (philo->shared_data->one == false)
-			pthread_mutex_lock(&philo->shared_data->forks[philo->right_fork_id]);
+			pthread_mutex_lock(&philo->shared_data->forks[philo->r_fork]);
 	}
 	else
 	{
-		pthread_mutex_lock(&philo->shared_data->forks[philo->right_fork_id]);
+		pthread_mutex_lock(&philo->shared_data->forks[philo->r_fork]);
 		if (philo->shared_data->one)
-			pthread_mutex_lock(&philo->shared_data->forks[philo->left_fork_id]);
+			pthread_mutex_lock(&philo->shared_data->forks[philo->l_fork]);
 	}
 	pthread_mutex_lock(&philo->shared_data->check_mutex);
 	if (!philo->shared_data->check)
@@ -46,13 +46,13 @@ void	unlock_forks(t_philosopher *philo)
 	if (philo->id % 2 == 0)
 	{
 		if (!philo->shared_data->one)
-			pthread_mutex_unlock(&philo->shared_data->forks[philo->right_fork_id]);
-		pthread_mutex_unlock(&philo->shared_data->forks[philo->left_fork_id]);		
+			pthread_mutex_unlock(&philo->shared_data->forks[philo->r_fork]);
+		pthread_mutex_unlock(&philo->shared_data->forks[philo->l_fork]);		
 	}
 	else
 	{
-		pthread_mutex_unlock(&philo->shared_data->forks[philo->right_fork_id]);
+		pthread_mutex_unlock(&philo->shared_data->forks[philo->r_fork]);
 		if (philo->shared_data->one)
-			pthread_mutex_unlock(&philo->shared_data->forks[philo->left_fork_id]);
+			pthread_mutex_unlock(&philo->shared_data->forks[philo->l_fork]);
 	}
 }

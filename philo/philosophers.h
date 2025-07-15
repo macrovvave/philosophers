@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 16:47:57 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 18:46:40 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef struct s_data
 typedef struct s_philosopher
 {
 	int					id;
-	int					left_fork_id;
-	int					right_fork_id;
+	int					l_fork;
+	int					r_fork;
 	long				last_meal_time;
 	int					meals_eaten;
 	t_data				*shared_data;

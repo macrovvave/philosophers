@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 18:37:47 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 18:46:40 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 	while (i < data->p_n)
 	{
 		philo[i].id = i + 1;
-		philo[i].left_fork_id = i;
-		philo[i].right_fork_id = (i + 1) % data->p_n;
+		philo[i].l_fork = i;
+		philo[i].r_fork = (i + 1) % data->p_n;
 		philo[i].last_meal_time = get_current_time_ms();
 		philo[i].meals_eaten = 0;
 		philo[i].shared_data = data;
