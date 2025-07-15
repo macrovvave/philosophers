@@ -6,7 +6,7 @@
 /*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 14:40:57 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/15 02:00:56 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_philosopher
 	pthread_mutex_t		meal_mutex;
 }						t_philosopher;
 
+void		ft_print(char *txt, long time, t_philosopher *philo, int n);
 void		cleanup(t_data *data, t_philosopher *philos, pthread_t *threads);
 long		get_current_time_ms(void);
 long long	ft_atoi(char *str, long long *var);

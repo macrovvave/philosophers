@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 17:57:54 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/14 22:15:17 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 	i = 0;
 	while (i < data->p_n)
 	{
-		philo[i].id = i;
+		philo[i].id = i + 1;
 		philo[i].left_fork_id = i;
 		philo[i].right_fork_id = (i + 1) % data->p_n;
 		philo[i].last_meal_time = get_current_time_ms();

@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/13 17:58:01 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/15 02:00:33 by macroooowav      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	ft_print(char *txt, long time, t_philosopher *philo, int n)
+{
+	if (!n && !philo->shared_data->check)
+	{
+		printf("[%ld]: ", time);
+		printf("%d ", philo->id);
+		printf("%s\n", txt);
+	}
+	else if (n && !philo->shared_data->check)
+	{
+		printf("[%ld]: ", time);
+		printf("%s\n", txt);
+	}
+}
 
 int	check_values(t_data *data)
 {
@@ -53,7 +68,7 @@ int	should_die(t_philosopher *philo)
 
 	t_d = philo->shared_data->t_d;
 	pthread_mutex_lock(&philo->meal_mutex);
-	if (get_current_time_ms() - philo->last_meal_time >= t_d)
+	if (get_current_time_ms() - philo->last_meal_time > t_d)
 	{
 		pthread_mutex_unlock(&philo->meal_mutex);
 		printing(3, philo);
