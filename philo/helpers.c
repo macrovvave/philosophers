@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/17 17:36:22 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:19:19 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,3 +95,5 @@ int	ate_enough(t_philosopher *philo)
 	pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex); // 13.2 unlock
 	return (0);
 }
+
+/////////////// test this on school session ./philo 200 800 200 200 3 - no one should die //////////////////
