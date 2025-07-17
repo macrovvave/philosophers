@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/17 02:53:12 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:29:23 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,17 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 	while (i < data->p_n)
 	{
 		philo[i].id = i;
-		philo[i].l_fork = i;
-		philo[i].r_fork = (i + 1) % data->p_n;
+		if (i % 2)
+		{
+			philo[i].l_fork = i;
+			philo[i].r_fork = (i + 1) % data->p_n;
+		}
+		else
+		{
+			philo[i].r_fork = i;
+			philo[i].l_fork = (i + 1) % data->p_n;
+			
+		}
 		philo[i].last_meal_time = get_current_time_ms();
 		philo[i].meals_eaten = 0;
 		philo[i].shared_data = data;

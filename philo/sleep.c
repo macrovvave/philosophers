@@ -21,11 +21,16 @@ void	ft_usleep(long long duration, t_philosopher *philo)
 
 	end_time = get_current_time_ms() + duration;
 	// pthread_mutex_lock(&philo->shared_data->sleep);// 8.0 lock
-	pthread_mutex_lock(&philo->shared_data->check_mutex); // 9.0 lock
-	while (get_current_time_ms() < end_time && !philo->shared_data->check)
+	while (get_current_time_ms() < end_time)
 	{
-		pthread_mutex_unlock(&philo->shared_data->check_mutex);// 9.1 unlock
-		usleep(200);
+		pthread_mutex_lock(&philo->shared_data->check_mutex); // 9.0 lock
+		if(philo->shared_data->check)
+		{
+			pthread_mutex_unlock(&philo->shared_data->check_mutex);// 9.1 unlock
+			return ;
+		}
+		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 9.0 lock
+		usleep(100);
 	}
 }
 
@@ -35,9 +40,7 @@ void	sleep_func(t_philosopher *philo)
 	if (!philo->shared_data->check)
 	{
 		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 7.1 unlock
-		pthread_mutex_lock(&philo->shared_data->print); // print unlock
 		printing(1, philo);
-		pthread_mutex_unlock(&philo->shared_data->print); // print unlock
 		ft_usleep(philo->shared_data->t_s, philo);
 		return ;
 	}

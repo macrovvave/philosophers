@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/17 15:27:50 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:36:22 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 void	ft_print(char *txt, long time, t_philosopher *philo, int n)
 {
-	pthread_mutex_lock(&philo->shared_data->check_mutex);// 6.0 lock | changed print mutex with check_mutex
-	if (!n && !philo->shared_data->check)
+	pthread_mutex_lock(&philo->shared_data->print); // print unlock
+	if (!n)
 	{
-		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 6.0 unlock 
-		printf("[%ld]: ", time);
-		printf("%d ", philo->id + 1);
-		printf("%s\n", txt);
+		pthread_mutex_unlock(&philo->shared_data->print); // print unlock
+		printf("[%ld]: %d %s\n", time, philo->id + 1, txt);
 	}
-	else if (n && !philo->shared_data->check)
+	else if (n)
 	{
-		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 6.0 unlock 
-		printf("[%ld]: ", time);
-		printf("%s\n", txt);
+		pthread_mutex_unlock(&philo->shared_data->print); // print unlock
+		printf("[%ld]: %s\n", time, txt);
 	}
 }
 
@@ -68,7 +65,7 @@ long long	ft_atoi(char *num, long long *var)
 int	 should_die(t_philosopher *philo)
 {
 	pthread_mutex_lock(&philo->meal_mutex); // 11.0 lock
-	if (get_current_time_ms() - philo->last_meal_time >= philo->shared_data->t_d) // added the =
+	if (get_current_time_ms() - philo->last_meal_time > philo->shared_data->t_d) // added the =
 	{
 		pthread_mutex_unlock(&philo->meal_mutex); // 11.1 unlock
 		printing(3, philo);

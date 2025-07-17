@@ -7,22 +7,22 @@ void	printing(int check, t_philosopher *philo) // removed the check mutex
 	long long	start;
 
 	start = philo->shared_data->start;
-	// pthread_mutex_lock(&philo->shared_data->check_mutex); // 5.0 lock | add this instead of print mutex before each printing call, back to old version
-	if (check == 3)
+	pthread_mutex_lock(&philo->shared_data->check_mutex); // 5.0 lock | add this instead of print mutex before each printing call, back to old version
+	if (check == 3 && !philo->shared_data->check)
 		ft_print("====================> died", el_time(start), philo, 0);
-	else if (check == 7)
+	else if (check == 7 && !philo->shared_data->check)
 		ft_print("has taken two forks", el_time(start), philo, 0);
-	else if (check == 1)
+	else if (check == 1 && !philo->shared_data->check)
 		ft_print("is sleeping", el_time(start), philo, 0);
-	else if (check == 2)
+	else if (check == 2 && !philo->shared_data->check)
 		ft_print("is eating", el_time(start), philo, 0);
-	else if (check == 6)
+	else if (check == 6 && !philo->shared_data->check)
 		ft_print("has taken a fork", el_time(start), philo, 0);
-	else if (check == 4)
+	else if (check == 4 && !philo->shared_data->check)
 		ft_print("all the philos ate their meals", el_time(start), philo, 1);
-	else if (check == 5)
+	else if (check == 5 && !philo->shared_data->check)
 		ft_print("is thinking", el_time(start), philo, 0);
-	// pthread_mutex_unlock(&philo->shared_data->check_mutex); // 5.0 unlock
+	pthread_mutex_unlock(&philo->shared_data->check_mutex); // 5.0 unlock
 }
 
 void	*routine(void *arg)
@@ -43,10 +43,10 @@ void	*routine(void *arg)
 		pthread_mutex_unlock(&data->check_mutex); // 1.2 unlck
 		lock_forks(philo);
 		eat(philo);
-		// if (philo->id > 1 && philo->id % 2) // last update
-		// 	ft_usleep((philo->shared_data->t_s + philo->shared_data->t_e - philo->shared_data->t_d), philo);
 		sleep_func(philo);
 		think(philo);
+		if (philo->shared_data->p_n % 2 != 0) // last update - recheck w/o later
+			ft_usleep((philo->shared_data->t_s + philo->shared_data->t_e - philo->shared_data->t_d), philo);
 	}
 	return (NULL);
 }
