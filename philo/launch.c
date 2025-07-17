@@ -9,7 +9,7 @@ void	printing(int check, t_philosopher *philo) // removed the check mutex
 	pthread_mutex_lock(&philo->shared_data->check_mutex); // 5.0 lock | add this instead of print mutex before each printing call, back to old version
 	start = philo->shared_data->start;
 	if (check == 3 && !philo->shared_data->check)
-		ft_print("====================> died", el_time(start), philo, 0);
+		ft_print("deid", el_time(start), philo, 0);
 	else if (check == 7 && !philo->shared_data->check)
 		ft_print("has taken two forks", el_time(start), philo, 0);
 	else if (check == 1 && !philo->shared_data->check)
@@ -45,8 +45,8 @@ void	*routine(void *arg)
 		eat(philo);
 		sleep_func(philo);
 		think(philo);
-		// if (philo->shared_data->p_n % 2 != 0) // last update - recheck w/o later
-		// 	ft_usleep((philo->shared_data->t_s + philo->shared_data->t_e - philo->shared_data->t_d), philo);
+		if (philo->shared_data->p_n % 2 != 0) 
+			ft_usleep(philo->shared_data->t_d - (philo->shared_data->t_s + philo->shared_data->t_e), philo);
 	}
 	return (NULL);
 }

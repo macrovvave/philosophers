@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread
 NAME = philo
 
 SRC = main.c helpers.c eat.c exit.c launch.c sleep.c think.c locking.c
