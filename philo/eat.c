@@ -3,36 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:42:55 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 19:38:48 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/17 15:10:29 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	eat(t_philosopher *philo)
+void eat(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->shared_data->check_mutex);
+	pthread_mutex_lock(&philo->shared_data->check_mutex); // 2.0 lock
 	if (!philo->shared_data->check && !philo->shared_data->one)
 	{
-		pthread_mutex_unlock(&philo->shared_data->check_mutex);
-		printing(2, philo);
-		pthread_mutex_lock(&philo->meal_mutex);
+		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 2.1 unlock
+		pthread_mutex_lock(&philo->meal_mutex); // 3.0 lock 
 		philo->last_meal_time = get_current_time_ms();
+		pthread_mutex_unlock(&philo->meal_mutex); // 3.0 unlock
+		pthread_mutex_lock(&philo->shared_data->print); // print lock
+		printing(2, philo);
+		pthread_mutex_unlock(&philo->shared_data->print); // print unlock
 		philo->meals_eaten++;
 		if (philo->meals_eaten == philo->shared_data->meals_to_eat)
 		{
-			pthread_mutex_lock(&philo->shared_data->data_meal_counter_mutex);
+			pthread_mutex_lock(&philo->shared_data->data_meal_counter_mutex); // 4.0 lock 
 			philo->shared_data->meals++;
-			pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex);
+			pthread_mutex_unlock(&philo->shared_data->data_meal_counter_mutex); // 4.0 unlock 
 		}
-		pthread_mutex_unlock(&philo->meal_mutex);
+		unlock_forks(philo); // changed the place of the unforking
 		ft_usleep(philo->shared_data->t_e, philo);
-		unlock_forks(philo);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->shared_data->check_mutex);
+	pthread_mutex_unlock(&philo->shared_data->check_mutex); //. 2.2 unlock 
 	unlock_forks(philo);
 }

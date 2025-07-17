@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 19:22:39 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/17 02:53:12 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ void	forks_inis(t_data *data, t_philosopher *philo_s, pthread_t *philo)
 		i++;
 	}
 	if (pthread_mutex_init(&data->check_mutex, NULL)
-		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL))
+		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL)
+		|| pthread_mutex_init(&data->sleep, NULL))
 	{
 		cleanup(data, philo_s, philo);
 		exit(1);
@@ -75,7 +76,7 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 	i = 0;
 	while (i < data->p_n)
 	{
-		philo[i].id = i + 1;
+		philo[i].id = i;
 		philo[i].l_fork = i;
 		philo[i].r_fork = (i + 1) % data->p_n;
 		philo[i].last_meal_time = get_current_time_ms();

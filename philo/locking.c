@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   locking.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: macroooowave <macroooowave@student.42.f    +#+  +:+       +#+        */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:44:46 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/15 19:35:36 by macroooowav      ###   ########.fr       */
+/*   Updated: 2025/07/17 15:24:19 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	lock_forks(t_philosopher *philo )
 {
-	if (philo->id % 2 != 0)
+	if (philo->id % 2)
 	{
 		pthread_mutex_lock(&philo->shared_data->forks[philo->l_fork]);
-		if (philo->shared_data->one == false)
+		if (!philo->shared_data->one)
 			pthread_mutex_lock(&philo->shared_data->forks[philo->r_fork]);
 	}
 	else
@@ -33,14 +33,14 @@ void	lock_forks(t_philosopher *philo )
 			printing(7, philo);
 		else
 			printing(6, philo);
+		return ;
 	}
-	else
-		pthread_mutex_unlock(&philo->shared_data->check_mutex);
+	pthread_mutex_unlock(&philo->shared_data->check_mutex);
 }
 
 void	unlock_forks(t_philosopher *philo)
 {
-	if (philo->id % 2 != 0)
+	if (philo->id % 2)
 	{
 		if (!philo->shared_data->one)
 			pthread_mutex_unlock(&philo->shared_data->forks[philo->r_fork]);
