@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/17 17:29:23 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/17 21:54:38 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_data	*parse_args(int argc, char **argv)
 	return (data);
 }
 
-void	forks_inis(t_data *data, t_philosopher *philo_s, pthread_t *philo)
+int	forks_inis(t_data *data)
 {
 	int	i;
 
@@ -54,22 +54,17 @@ void	forks_inis(t_data *data, t_philosopher *philo_s, pthread_t *philo)
 	while (i < data->p_n)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL))
-		{
-			cleanup(data, philo_s, philo);
-			exit(1);
-		}
+			return (0);
 		i++;
 	}
 	if (pthread_mutex_init(&data->check_mutex, NULL)
 		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL)
 		|| pthread_mutex_init(&data->sleep, NULL))
-	{
-		cleanup(data, philo_s, philo);
-		exit(1);
-	}
+		return (0);
+	return (1);
 }
 
-void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
+int	inis(t_data *data, t_philosopher *philo)
 {
 	int	i;
 
@@ -77,7 +72,7 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 	while (i < data->p_n)
 	{
 		philo[i].id = i;
-		if (i % 2)
+		if (i % 2 == 0)
 		{
 			philo[i].l_fork = i;
 			philo[i].r_fork = (i + 1) % data->p_n;
@@ -92,18 +87,13 @@ void	inis(t_data *data, t_philosopher *philo, pthread_t *philosophers)
 		philo[i].meals_eaten = 0;
 		philo[i].shared_data = data;
 		if (pthread_mutex_init(&philo[i].meal_mutex, NULL))
-		{
-			cleanup(data, philo, philosophers);
-			exit(1);
-		}
+			return (0);
 		i++;
 	}
 	if (pthread_mutex_init(&philo->shared_data->print, NULL))
-	{
-		cleanup(data, philo, philosophers);
-		exit(1);
-	}
+		return (0);
 	data->check = false;
+	return (1);
 }
 
 int	main(int ac, char **av)
@@ -129,8 +119,8 @@ int	main(int ac, char **av)
 		if (!philosophers || !data->forks || !philo_structs)
 			return (cleanup(data, philo_structs, philosophers), 0);
 	}
-	inis(data, philo_structs, philosophers);
-	forks_inis(data, philo_structs, philosophers);
-	launch(philosophers, philo_structs, data);
+	if (inis(data, philo_structs)
+		&& forks_inis(data))
+		launch(philosophers, philo_structs, data);
 	cleanup(data, philo_structs, philosophers);
 }
