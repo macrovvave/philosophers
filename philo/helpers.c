@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:36:33 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/17 19:19:19 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/17 19:57:23 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_print(char *txt, long time, t_philosopher *philo, int n)
 		pthread_mutex_unlock(&philo->shared_data->print); // print unlock
 		printf("[%ld]: %s\n", time, txt);
 	}
+	
 }
 
 int	check_values(t_data *data)
