@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/18 10:32:34 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:16:25 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ int	forks_inis(t_data *data)
 		i++;
 	}
 	if (pthread_mutex_init(&data->check_mutex, NULL)
-		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL)
-		|| pthread_mutex_init(&data->print, NULL))
+		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL))
 		return (0);
 	return (1);
 }

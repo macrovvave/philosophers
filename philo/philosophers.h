@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/18 09:35:15 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:16:34 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		check_mutex;
 	pthread_mutex_t		data_meal_counter_mutex;
-	pthread_mutex_t		print;
 }						t_data;
 
 typedef struct s_philosopher
