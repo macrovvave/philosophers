@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 16:56:16 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/17 21:54:38 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/18 10:32:34 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	forks_inis(t_data *data)
 	}
 	if (pthread_mutex_init(&data->check_mutex, NULL)
 		|| pthread_mutex_init(&data->data_meal_counter_mutex, NULL)
-		|| pthread_mutex_init(&data->sleep, NULL))
+		|| pthread_mutex_init(&data->print, NULL))
 		return (0);
 	return (1);
 }
@@ -81,17 +81,14 @@ int	inis(t_data *data, t_philosopher *philo)
 		{
 			philo[i].r_fork = i;
 			philo[i].l_fork = (i + 1) % data->p_n;
-			
 		}
 		philo[i].last_meal_time = get_current_time_ms();
 		philo[i].meals_eaten = 0;
-		philo[i].shared_data = data;
+		philo[i].data = data;
 		if (pthread_mutex_init(&philo[i].meal_mutex, NULL))
 			return (0);
 		i++;
 	}
-	if (pthread_mutex_init(&philo->shared_data->print, NULL))
-		return (0);
 	data->check = false;
 	return (1);
 }

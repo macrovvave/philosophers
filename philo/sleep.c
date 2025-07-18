@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sleep.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 09:39:20 by hoel-mos          #+#    #+#             */
+/*   Updated: 2025/07/18 09:39:51 by hoel-mos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "philosophers.h"
 
@@ -15,34 +25,33 @@ long	el_time(long start_time)
 	return (get_current_time_ms() - start_time);
 }
 
-void	ft_usleep(long long duration, t_philosopher *philo)
+void	muslp(long long duration, t_philosopher *philo)
 {
 	long long	end_time;
 
 	end_time = get_current_time_ms() + duration;
-	// pthread_mutex_lock(&philo->shared_data->sleep);// 8.0 lock
 	while (get_current_time_ms() < end_time)
 	{
-		pthread_mutex_lock(&philo->shared_data->check_mutex); // 9.0 lock
-		if(philo->shared_data->check)
+		pthread_mutex_lock(&philo->data->check_mutex);
+		if (philo->data->check)
 		{
-			pthread_mutex_unlock(&philo->shared_data->check_mutex);// 9.1 unlock
+			pthread_mutex_unlock(&philo->data->check_mutex);
 			return ;
 		}
-		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 9.0 lock
+		pthread_mutex_unlock(&philo->data->check_mutex);
 		usleep(100);
 	}
 }
 
 void	sleep_func(t_philosopher *philo)
 {
-	pthread_mutex_lock(&philo->shared_data->check_mutex); // 7.0 lock
-	if (!philo->shared_data->check)
+	pthread_mutex_lock(&philo->data->check_mutex);
+	if (!philo->data->check)
 	{
-		pthread_mutex_unlock(&philo->shared_data->check_mutex); // 7.1 unlock
+		pthread_mutex_unlock(&philo->data->check_mutex);
 		printing(1, philo);
-		ft_usleep(philo->shared_data->t_s, philo);
+		muslp(philo->data->t_s, philo);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->shared_data->check_mutex);// 7.2 unlock
+	pthread_mutex_unlock(&philo->data->check_mutex);
 }

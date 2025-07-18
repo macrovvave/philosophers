@@ -6,7 +6,7 @@
 /*   By: hoel-mos <hoel-mos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/12 21:31:23 by hoel-mos          #+#    #+#             */
-/*   Updated: 2025/07/16 21:41:47 by hoel-mos         ###   ########.fr       */
+/*   Updated: 2025/07/18 09:35:15 by hoel-mos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_data
 	pthread_mutex_t		check_mutex;
 	pthread_mutex_t		data_meal_counter_mutex;
 	pthread_mutex_t		print;
-	pthread_mutex_t		sleep;
 }						t_data;
 
 typedef struct s_philosopher
@@ -46,7 +45,7 @@ typedef struct s_philosopher
 	int					r_fork;
 	long				last_meal_time;
 	int					meals_eaten;
-	t_data				*shared_data;
+	t_data				*data;
 	pthread_mutex_t		meal_mutex;
 }						t_philosopher;
 
@@ -64,7 +63,7 @@ void		unlock_forks(t_philosopher *philo);
 int			should_die(t_philosopher *philo);
 int			ate_enough(t_philosopher *philo);
 int			check_values(t_data *data);
-void		ft_usleep(long long duration, t_philosopher *philo);
+void		muslp(long long duration, t_philosopher *philo);
 void		printing(int check, t_philosopher *philo);
 long		el_time(long start_time);
 t_data		*data(void);
